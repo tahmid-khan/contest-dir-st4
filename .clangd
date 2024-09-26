@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://json.schemastore.org/clangd.json
+
+CompileFlags:
+  Compiler: /opt/homebrew/bin/g++-14
+  Add: [
+    -std=c++20,
+    -DLOCAL,
+    -D_GLIBCXX_DEBUG,
+    -D_GLIBCXX_SANITIZE_VECTOR,
+    -pedantic,
+    -Wall,
+    -Wextra,
+    -Wconversion,
+    -Wno-sign-conversion,
+    -Wshadow,
+    -Wfloat-equal,
+    -Wmisleading-indentation,
+    -Wimplicit-fallthrough,
+    -Wlogical-op,
+    -Wduplicated-cond,
+    -Wduplicated-branches,
+    -Wuseless-cast,
+  ]
+
+Diagnostics:
+  UnusedIncludes: None
+
+InlayHints:
+  BlockEnd: true
