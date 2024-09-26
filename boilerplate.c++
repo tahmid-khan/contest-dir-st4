@@ -30,7 +30,7 @@
 #endif
 
 #ifdef LOCAL
-#	include "dump.h"
+#	include "local/debugging.h"
 #else
 #	define DUMP(...)
 #	define cerr	if (false) cerr

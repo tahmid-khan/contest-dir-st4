@@ -1,7 +1,7 @@
 /* -*- C++ -*- */
 
-#ifndef DUMP_H_GUARD
-#define DUMP_H_GUARD
+#ifndef DEBUGGING_H_INCLUDED
+#define DEBUGGING_H_INCLUDED
 
 
 #include <cstddef>
@@ -40,4 +40,4 @@ inline std::ostream& dump_values(T (&first)[N], Rest... rest)
 	dump_values(__VA_ARGS__)
 
 
-#endif // DUMP_H_GUARD
+#endif // DEBUGGING_H_INCLUDED

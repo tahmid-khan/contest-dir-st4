@@ -1,7 +1,7 @@
 /* -*- C++ -*- */
 
-#ifndef TO_STRING_H_GUARD
-#define TO_STRING_H_GUARD
+#ifndef TO_STRING_H_INCLUDED
+#define TO_STRING_H_INCLUDED
 
 
 #include <bitset>
@@ -253,4 +253,4 @@ inline string to_string(const multimap<Key, T>& map)
 } // namespace std
 
 
-#endif // TO_STRING_H_GUARD
+#endif // TO_STRING_H_INCLUDED
