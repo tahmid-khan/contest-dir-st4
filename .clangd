@@ -3,10 +3,9 @@
 CompileFlags:
   Compiler: brew_g++
   Add: [
-    -std=c++17,
+    -std=gnu++17,
     -DLOCAL,
-    -D_GLIBCXX_DEBUG,
-    -D_GLIBCXX_SANITIZE_VECTOR,
+    -D_GLIBCXX_ASSERTIONS,
 
     # diagnostic flags common to both GCC and Clang
     -pedantic,
