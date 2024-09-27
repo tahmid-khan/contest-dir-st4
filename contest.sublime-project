@@ -7,10 +7,91 @@
 	"settings": {
 		"LSP": {
 			"clangd": {
+				"enabled": false,
 				"initializationOptions": {
 					"clangd.header-insertion": "never"
 				}
 			}
 		}
-	}
+	},
+	"build_systems": [
+		{
+			"name": "Contest: Compile (G++)",
+			"shell_cmd": "g++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast",
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"working_dir": "${file_path}",
+			"selector": "source.c++",
+			"osx": {
+				"shell_cmd": "brew_g++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast"
+			},
+			"variants": [
+				{
+					"name": "with Debugging Support & Sanitizers",
+					"shell_cmd": "g++ '$file' -std=c++17 -DLOCAL -D_GLIBCXX_DEBUG -D_GLIBCXX_SANITIZE_VECTOR -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -ggdb3 -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address",
+					"osx": {
+						"shell_cmd": "brew_g++ '$file' -std=c++17 -DLOCAL -D_GLIBCXX_DEBUG -D_GLIBCXX_SANITIZE_VECTOR -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -g3 -glldb -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address"
+					}
+				}
+			]
+		},
+		{
+			"name": "Contest: Compile (Clang)",
+			"shell_cmd": "clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable",
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"working_dir": "${file_path}",
+			"selector": "source.c++",
+			"osx": {
+				"shell_cmd": "brew_clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable"
+			},
+			"variants": [
+				{
+					"name": "with Debugging Support & Sanitizers",
+					"shell_cmd": "clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -ggdb3 -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability",
+					"osx": {
+						"shell_cmd": "brew_clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -g3 -glldb -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability"
+					}
+				}
+			]
+		},
+		{
+			"name": "Contest: Run (G++)",
+			"shell_cmd": "g++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"working_dir": "$file_path",
+			"selector": "source.c++",
+			"osx": {
+				"shell_cmd": "brew_g++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+			},
+			"variants": [
+				{
+					"name": "with Sanitizers",
+					"shell_cmd": "g++ '$file' -std=c++17 -DLOCAL -D_GLIBCXX_DEBUG -D_GLIBCXX_SANITIZE_VECTOR -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -ggdb3 -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+					"file_regex": "^SUMMARY: [^:]+: [^ ]+ ([^:]+):([0-9]+):?([0-9]+)?.*$",
+					"osx": {
+						"shell_cmd": "brew_g++ '$file' -std=c++17 -DLOCAL -D_GLIBCXX_DEBUG -D_GLIBCXX_SANITIZE_VECTOR -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wuseless-cast -g3 -glldb -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+					}
+				}
+			]
+		},
+		{
+			"name": "Contest: Run (Clang)",
+			"shell_cmd": "clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"working_dir": "$file_path",
+			"selector": "source.c++",
+			"osx": {
+				"shell_cmd": "brew_clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+			},
+			"variants": [
+				{
+					"name": "with Sanitizers",
+					"shell_cmd": "clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -ggdb3 -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+					"file_regex": "^SUMMARY: [^:]+: [^ ]+ ([^:]+):([0-9]+):?([0-9]+)?.*$",
+					"osx": {
+						"shell_cmd": "brew_clang++ '$file' -std=c++17 -DLOCAL -pedantic -Wall -Wextra -Wconversion -Wshadow -Wfloat-equal -Wmisleading-indentation -Wimplicit-fallthrough -Wno-sign-conversion -Wno-unused-const-variable -g3 -glldb -fsanitize=undefined,float-divide-by-zero,float-cast-overflow,address,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability -o 'bin/$file_base_name' && 'bin/$file_base_name' <in.txt >out.txt",
+					}
+				}
+			]
+		}
+	]
 }
